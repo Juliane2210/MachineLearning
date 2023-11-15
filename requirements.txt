@@ -1,5 +1,11 @@
 pandas
 seaborn
 numpy
+matplotlib
+scikit-learn
+catboost
+xgboost
+
 ##this will trigger setup.py file
--e .
+#comment it out while testing because you don't want to rebuild the package multiple times
+#-e .
