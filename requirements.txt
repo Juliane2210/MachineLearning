@@ -5,6 +5,7 @@ matplotlib
 scikit-learn
 catboost
 xgboost
+dill
 
 ##this will trigger setup.py file
 #comment it out while testing because you don't want to rebuild the package multiple times
