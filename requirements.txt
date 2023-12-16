@@ -1,3 +1,7 @@
+#This file contains all the packages that we want to install when running
+#the project
+
+
 pandas
 seaborn
 numpy

@@ -1,3 +1,6 @@
+
+#
+
 from setuptools import find_packages, setup
 from typing import List
 
@@ -29,6 +32,7 @@ setup(
     author='Juliane',
     author_email='bruck.juliane@gmail.com',
     # will consider any folder with an __init__.py file as a package
+    # and when we run this find_packages() function it will build them
     packages=find_packages(),
     # when there are too many packages
     # ##it is best to create a fct using the requirements.txt file as an input

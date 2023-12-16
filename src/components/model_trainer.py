@@ -32,6 +32,8 @@ class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
 
+    # input data is split into training and testing sets
+    # (X_train, y_train, X_test, y_test) using array slicing
     def initiate_model_trainer(self, train_array, test_array):
         try:
             logging.info("Split training and test input data")
@@ -43,6 +45,8 @@ class ModelTrainer:
                 test_array[:, :-1],
                 test_array[:, -1]
             )
+            # Dictionary containing instances of various regression models.
+            # Each model is associated with a string key.
             models = {
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
@@ -55,6 +59,8 @@ class ModelTrainer:
 
             }
 
+            # Another dictionary containing hyperparameter grids for each model.
+            # The keys correspond to the model names, and the values are dictionaries specifying hyperparameters and their respective values for grid search.
             params = {
                 "Decision Tree": {
                     'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
@@ -93,6 +99,8 @@ class ModelTrainer:
 
             }
 
+            # Calling the evaluate_models function that we defined in utils
+            # (fits the models, performs grid search for hyperparameter tuning, sets the best hyperparameters found and re-fitting each model on the training data)
             model_report: dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test,
                                                  models=models, param=params)
 
@@ -105,18 +113,21 @@ class ModelTrainer:
             ]
             best_model = models[best_model_name]
 
+            # raises a custom exception if best score is below the 0.6 treshold
             if best_model_score < 0.6:
                 raise CustomException("No best model found")
             logging.info(
                 f"Best found model on both training and testing dataset")
 
+            # best model is saved
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
                 obj=best_model
             )
 
+            # use best model to make predictions on the test set
             predicted = best_model.predict(X_test)
-
+            # calculate the R-squared score and return
             r2_square = r2_score(y_test, predicted)
             return r2_square
 
